@@ -14,18 +14,13 @@ cache:
 before_install:
 - set -e
 - python3 --version
-- sudo apt-get install python3-pip flake8
-- flake8 .
-- pip3 install --upgrade setuptools pip
-- pip3 install -r requirements.txt
-- pip3 install -e . --no-deps
+- sudo apt-get install python3-pip
+- pip3 install --upgrade setuptools pip btrccts # --index-url https://test.pypi.org/simple/
+- bash -c 'req="$(pip freeze)" ; pip3 install hashin ; touch requirements.txt ; hashin ${req} ; cat requirements.txt'
+- bash -c 'pip3 install pipdeptree ; pipdeptree -fl ; exit 0'
 # Run algo to see all needed requirements are here
-# - pip3 install -e .
-# - bash -c 'req="$(pip freeze | grep -v btrccts)" ; pip3 install hashin ; touch requirements.txt ; hashin ${req} ; cat requirements.txt'
-# - bash -c 'pip3 install pipdeptree ; pipdeptree -fl ; exit 0'
 - python3 examples/print_time.py --start-date 2017-01-01 --end-date 2017-01-02
-- pip3 install -e .[dev]
+- pip3 install pycodestyle pyflakes
 script:
 - python3 -m unittest tests/unit/tests.py
 - python3 -m unittest tests/integration/tests.py
-- pip3 install -r version_hashes.txt
