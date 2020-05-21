@@ -178,11 +178,7 @@ class ExchangeAccount:
             # If we wait for the next date, we would return a market order that
             # is pending, but this should never happen in reality
             # Maybe the factor should depend on the volume
-            factor = Decimal('0.0015')
-            if buy:
-                price = (1 + factor) * _convert_float(ohlcv['high'][date])
-            else:
-                price = (1 - factor) * _convert_float(ohlcv['low'][date])
+            price = _convert_float(ohlcv['open'][date])
             fee_percentage = market.get('taker', 0)
             fee_percentage = _convert_float_or_raise(fee_percentage,
                                                      'ExchangeAccount: fee')
